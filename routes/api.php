@@ -28,14 +28,11 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource("/pedidos",PedidoController::class);
 
+    Route::get("/categorias",[CategoriaController::class,"index"]);
+
+    Route::apiResource("/productos",ProductoController::class);
+
 });
-
-
-
-
-Route::get("/categorias",[CategoriaController::class,"index"]);
-
-Route::get("/productos",[ProductoController::class,"index"]);
 
 //autenticacion
 

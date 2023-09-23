@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PedidoCollection;
 use Carbon\Carbon;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
@@ -15,7 +16,11 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        //
+        return new PedidoCollection(Pedido::with("user")
+        ->with("productos")
+        ->where("estado",0)
+        ->get()
+    );
     }
 
     /**
@@ -77,7 +82,12 @@ class PedidoController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        $pedido->estado = 1;
+        $pedido->save();
+        return [
+            "pedido" => $pedido,
+        ];
+
     }
 
     /**
