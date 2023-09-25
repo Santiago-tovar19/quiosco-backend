@@ -95,6 +95,6 @@ class PedidoController extends Controller
      */
     public function destroy(Pedido $pedido)
     {
-        //
+
     }
 }

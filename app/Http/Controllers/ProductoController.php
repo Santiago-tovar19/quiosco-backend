@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CrearProductoRequest;
+use Carbon\Carbon;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ProductoCollection;
+use App\Http\Requests\CrearProductoRequest;
 
 class ProductoController extends Controller
 {
@@ -36,18 +38,24 @@ class ProductoController extends Controller
      */
     public function store(CrearProductoRequest $request)
     {
-        // $data = $request->validated();
+        $data = $request->validated();
 
-        // $producto = [
-        //     "nombre" => $data["nombre"],
-        //     "precio" => $data["precio"],
-        //     "categoria_id" => $data["categoria_id"],
-        //     "imagen" => $data["imagen"],
-        // ];
+        $producto = [
+            "nombre" => $data["nombre"],
+            "precio" => $data["precio"],
+            "categoria_id" => $data["categoria_id"],
+            "url" => $data["url"],
+            "imagen" => "",
+            "disponible" => true,
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ];
+
+       $producto_agregado = DB::table("productos")->insert($producto);
 
         return [
             "mensaje" => "Producto creado correctamente",
-            "producto" => $request
+            "producto" => $producto_agregado
         ];
 
     }
@@ -77,6 +85,23 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        $producto->delete();
+
+        return [
+            "message" => "Producto eliminado de la base de datos correctamente",
+        ];
+    }
+
+    public function productosFiltrados(Request $request){
+
+        $productos = Producto::when($request->nombre, function($query, $nombre){
+             $query->where("nombre", "LIKE", "%$nombre%");
+        })
+        ->when($request->categoria_id, function($query, $categoria_id){
+            $query->where("categoria_id", $categoria_id);
+        })
+        ->paginate(100);
+
+        return new ProductoCollection($productos);
     }
 }

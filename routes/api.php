@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource("/productos",ProductoController::class);
 
+    Route::get("/productos-filtrados",[ProductoController::class,"productosFiltrados"]);
+
 });
 
 

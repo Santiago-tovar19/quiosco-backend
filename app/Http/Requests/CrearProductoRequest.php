@@ -25,7 +25,7 @@ class CrearProductoRequest extends FormRequest
             "nombre" => ["required","string"],
             "precio" => ["required","numeric"],
             "categoria_id" => ["required"],
-            // "imagen" => ["required"],
+            "url" => ["required","string"],
         ];
     }
 
@@ -36,7 +36,8 @@ class CrearProductoRequest extends FormRequest
             "precio.required" => "El precio es requerido",
             "precio.numeric" => "El precio debe de ser numerico",
             "categoria_id.required" => "La categoria es requerida",
-            // "imagen.required" => "La imagen es requerida",
+            "url.required" => "La url es requerida",
+            "url.string" => "La url debe de ser una cadena de texto",
         ];
     }
 }
