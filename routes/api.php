@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function(){
 
 });
 
+
+
 //autenticacion
 
 Route::post("/registro",[AuthController::class,"register"]);

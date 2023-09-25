@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CrearProductoRequest;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Http\Resources\ProductoCollection;
@@ -25,12 +26,30 @@ class ProductoController extends Controller
     ->get());
     }
 
+    public function view()
+    {
+        return "productos aqui...";
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CrearProductoRequest $request)
     {
-        //
+        // $data = $request->validated();
+
+        // $producto = [
+        //     "nombre" => $data["nombre"],
+        //     "precio" => $data["precio"],
+        //     "categoria_id" => $data["categoria_id"],
+        //     "imagen" => $data["imagen"],
+        // ];
+
+        return [
+            "mensaje" => "Producto creado correctamente",
+            "producto" => $request
+        ];
+
     }
 
     /**
