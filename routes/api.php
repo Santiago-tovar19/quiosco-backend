@@ -34,6 +34,10 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::get("/productos-filtrados",[ProductoController::class,"productosFiltrados"]);
 
+    Route::get("/productos/{id}",[ProductoController::class,"show"]);
+
+    Route::put("/editar-producto/{id}",[ProductoController::class,"actualizarProducto"]);
+
 });
 
 

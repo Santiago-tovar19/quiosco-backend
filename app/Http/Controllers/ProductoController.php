@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ProductoCollection;
 use App\Http\Requests\CrearProductoRequest;
+use App\Http\Requests\EditarProductoRequest;
 
 class ProductoController extends Controller
 {
@@ -63,9 +64,14 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Producto $producto)
+    public function show($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+
+        return [
+            "mensaje" => "Producto encontrado",
+            "producto" => $producto
+        ];
     }
 
     /**
@@ -77,6 +83,26 @@ class ProductoController extends Controller
         $producto->save();
         return [
             "producto" => $producto
+        ];
+    }
+
+    public function actualizarProducto(EditarProductoRequest $request){
+        $data = $request->validated();
+
+        $producto = Producto::findOrFail($request->id);
+
+        // Actualiza cada atributo del modelo
+        $producto->nombre = $data["nombre"];
+        $producto->precio = $data["precio"];
+        $producto->categoria_id = $data["categoria_id"];
+        $producto->url = $data["url"];
+        $producto->disponible = true;
+
+        $producto->save(); // Guarda los cambios en la base de datos
+
+        return [
+            "mensaje" => "Editado correctamente mi rey",
+            "request" => $request->id
         ];
     }
 
